@@ -49,10 +49,10 @@ STOP = ("文言曰",)
 # t2s folds 乾 into 干 (as in 乾燥/干燥). In 周易 both the 卦名 and 乾乾 stay 乾.
 KEEP_AS_IS = {"乾"}
 
-# Corrections to the Wikisource transcription itself. Each one needs two
-# independent supports: a second 底本 (ctext.org, 武英殿十三經注疏) reading it
-# differently, AND evidence inside this dataset. Applied after conversion so the
-# strings are the simplified forms that end up shipped.
+# Corrections to the Wikisource transcription itself — a wiki is not a critical
+# edition. Each entry must be justifiable from *inside* this dataset, so the
+# correction stands on its own and does not depend on a second source staying
+# reachable. Applied after conversion, on the simplified forms that ship.
 CORRECTIONS: dict[str, list[tuple[str, str, str]]] = {
     "地雷复": [
         (
@@ -60,7 +60,7 @@ CORRECTIONS: dict[str, list[tuple[str, str, str]]] = {
             "不远复",
             "字序颠倒；紧随其后的象曰作「不远之复」，可自证",
         ),
-        ("无袛悔", "无祗悔", "袛为内衣，此处无义；ctext 作祗"),
+        ("无袛悔", "无祗悔", "袛为内衣（衣部），此处无义；应为祗"),
     ],
 }
 

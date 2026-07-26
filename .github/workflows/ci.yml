@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A newer push makes an in-flight run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Lint and format
+        run: bunx biome ci src test tools
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      # Includes the parity suite: a SHA-256 over all 4^6 readings compared
+      # against the Python reference, plus the 卦辞 integrity checks.
+      - name: Test
+        run: bun test
+
+      - name: Build
+        run: bun run build
+
+      - name: Confirm the build output loads under Node
+        run: node -e "import('./dist/index.js').then(m => { if (m.cast('221422').gua.name !== '地山谦') throw new Error('unexpected reading'); })"
