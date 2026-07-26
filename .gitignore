@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+
+# Differential-test artefacts generated from the Python reference.
+tools/parity/*.jsonl
