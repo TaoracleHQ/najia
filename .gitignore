@@ -5,3 +5,4 @@ dist/
 
 # Differential-test artefacts generated from the Python reference.
 tools/parity/*.jsonl
+tools/.wikisource-cache.json

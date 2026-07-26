@@ -42,9 +42,9 @@ const GUACI: Record<string, string> = guaciData;
 /**
  * 卦名 with no bundled 卦辞. Empty here, and a test keeps it that way.
  *
- * The upstream pickle had two gaps because its conversion glued 雷风恒 onto
- * 泽山咸 and 艮为山 onto 震为雷 — four of the sixty-four served wrong or no text.
- * Re-splitting the source on title lines recovered all four; see README.
+ * The text is transcribed from Chinese Wikisource, not from the scraped copy the
+ * Python reference shipped — that one glued two 卦 onto their neighbours, lost
+ * every 乾卦 小象, and carried a site watermark. See README.
  */
 export const GUACI_MISSING: readonly string[] = Object.freeze(
 	Object.values(GUA64).filter((name) => GUACI[name] === undefined),

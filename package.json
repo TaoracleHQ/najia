@@ -13,7 +13,7 @@
 			"import": "./dist/index.js"
 		}
 	},
-	"files": ["dist", "README.md", "LICENSE"],
+	"files": ["dist", "README.md", "LICENSE", "NOTICE.md"],
 	"sideEffects": false,
 	"keywords": [
 		"najia",
