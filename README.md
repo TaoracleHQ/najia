@@ -4,7 +4,23 @@
 
 移植自 Python 库 [`najia`](https://github.com/bopo/najia)（MIT，作者 bopo），并保留其版权声明。
 
-> **状态：仅有工程骨架，尚未实现任何逻辑。**
+> **状态：确定性推导层已完成并通过交叉验证；起卦（`Najia.compile`）尚未移植。**
+
+## 已完成
+
+| 模块 | 内容 |
+| --- | --- |
+| `src/const.ts` | 纳甲表、六十四卦、六神、六亲、五行、旬空、卦宫等常量 |
+| `src/utils.ts` | `getNajia` `setShiYao` `palace` `soul` `attack` `unite` `getType` `getQin6` `getGod6` `xkong` `gz5x` `mark` |
+| `test/upstream.test.ts` | 移植自上游自带测试的 benchmark |
+
+**交叉验证结果：全部 64 卦 × 10 个字段 = 640 处断言，与 Python 实现零差异。**
+
+## 待移植
+
+- `Najia.compile()` —— 起卦主流程，含动爻、变卦（`_transform`）、伏神（`_hidden`）
+- 日期干支层。Python 原库用 `lunar_python`，其 JS 对应物 `lunar-javascript` / `tyme4ts` 出自同一作者（6tail），是 1:1 对应关系，不需要重写
+- `guaci.pkl` 卦辞数据导出为 JSON
 
 ## 为什么要做这个
 
