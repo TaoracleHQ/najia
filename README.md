@@ -154,6 +154,12 @@ Python 原库共 758 行，其中需要移植的是计算核心：
 | `data/standard.tpl` | 1.2K | 否 | jinja2 文本模板，属表现层 |
 | `data/guaci.pkl` | 57K | 否 | 采集文本，已弃用；卦辞改从维基文库转录 |
 
+## 安装
+
+```bash
+bun add najia      # 或 npm install najia
+```
+
 ## 开发
 
 ```bash
@@ -161,6 +167,25 @@ bun install
 bun run typecheck
 bun test
 bun run build      # tsc 输出 ESM + .d.ts 到 dist/
+```
+
+## 发布
+
+版本号改好后打标签即可，`.github/workflows/release.yml` 会跑完整校验再发布：
+
+```bash
+# package.json 的 version 与标签必须一致，否则工作流会拒绝发布
+git tag v0.1.0 && git push --tags
+```
+
+需要仓库配置 `NPM_TOKEN` secret（npm 的 automation token）。CI 发布会带上
+npm provenance，即在公共 registry 上留下"此包由此仓库此提交构建"的可验证记录。
+
+本地发布也可以，但拿不到 provenance：
+
+```bash
+npm login
+npm publish        # prepublishOnly 会先跑 typecheck + test + build
 ```
 
 ## 许可
