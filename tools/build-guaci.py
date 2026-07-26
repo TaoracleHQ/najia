@@ -49,6 +49,21 @@ STOP = ("文言曰",)
 # t2s folds 乾 into 干 (as in 乾燥/干燥). In 周易 both the 卦名 and 乾乾 stay 乾.
 KEEP_AS_IS = {"乾"}
 
+# Corrections to the Wikisource transcription itself. Each one needs two
+# independent supports: a second 底本 (ctext.org, 武英殿十三經注疏) reading it
+# differently, AND evidence inside this dataset. Applied after conversion so the
+# strings are the simplified forms that end up shipped.
+CORRECTIONS: dict[str, list[tuple[str, str, str]]] = {
+    "地雷复": [
+        (
+            "不复远",
+            "不远复",
+            "字序颠倒；紧随其后的象曰作「不远之复」，可自证",
+        ),
+        ("无袛悔", "无祗悔", "袛为内衣，此处无义；ctext 作祗"),
+    ],
+}
+
 # Wikisource carries the odd editorial gloss inline, e.g. 保合大和〈一作太和〉.
 # That is apparatus, not scripture, and would otherwise be read out to users.
 GLOSS = re.compile(r"〈[^〉]{0,30}〉")
@@ -168,7 +183,12 @@ def cmd_build() -> None:
         ]
         for yao, xiao in zip(layers["yaoci"], layers["xiaoxiang"]):
             body += [yao, f"象曰：{xiao}"]
-        built[name] = to_simplified("\n".join([title, *body]))
+        text_out = to_simplified("\n".join([title, *body]))
+        for wrong, right, _why in CORRECTIONS.get(name, []):
+            if wrong not in text_out:
+                raise SystemExit(f"{name}: 待修正的「{wrong}」已不存在，请复核 CORRECTIONS")
+            text_out = text_out.replace(wrong, right)
+        built[name] = text_out
 
     strays = sorted({ch for v in built.values() for ch in v if ord(ch) > 0xFFFF})
     if strays:
