@@ -3,13 +3,19 @@
  *
  * TypeScript port of the Python `najia` library (MIT, bopo).
  *
- * The deterministic derivations are ported and cross-checked against the Python
- * reference. 起卦 (`Najia.compile`) is not ported yet — it needs the lunar
- * date/干支 layer. See README.
+ * Fully ported and verified against the Python reference across the entire 4^6
+ * cast space. See README for the deliberate deviations.
  */
 
-export const VERSION = "0.0.0";
+export const VERSION = "0.1.0";
 
+export {
+	type Ganzhi,
+	type GanzhiOptions,
+	ganzhiAt,
+	ganzhiFromDate,
+	type LateZiSect,
+} from "./calendar.js";
 export {
 	GANS,
 	type Gan,
@@ -32,6 +38,20 @@ export {
 	ZHIS,
 	type Zhi,
 } from "./const.js";
+export {
+	type CastOptions,
+	type CastResult,
+	cast,
+	GUACI_MISSING,
+	guaci,
+	type Hexagram,
+	type Hidden,
+	hidden,
+	normaliseParams,
+	type Params,
+	transform,
+	type Yao,
+} from "./najia.js";
 export {
 	attack,
 	getGod6,

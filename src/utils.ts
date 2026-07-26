@@ -114,9 +114,15 @@ export interface ShiYao {
 	shi: number;
 	/** 应爻 */
 	ying: number;
-	/** Position fed to {@link palace}; differs from 世爻 for 游魂 and 归魂. */
-	index: number;
 }
+
+/*
+ * Deviation from the Python reference: `set_shi_yao` there returns a third
+ * value, `index`, which upstream's own `compile()` never reads — it always
+ * passes 世爻 to `palace()`. For the eight 游魂卦 the two disagree (火地晋
+ * resolves to 乾宫 via 世爻 but 离宫 via `index`), so `index` is a trap of
+ * exactly the invisible kind this port exists to avoid. It is dropped.
+ */
 
 /**
  * 世爻 / 应爻.
@@ -128,10 +134,9 @@ export interface ShiYao {
 export function setShiYao(symbol: string): ShiYao {
 	const wai = outer(symbol);
 	const nei = inner(symbol);
-	const at = (shi: number, index?: number): ShiYao => ({
+	const at = (shi: number): ShiYao => ({
 		shi,
 		ying: shi > 3 ? shi - 3 : shi + 3,
-		index: index ?? shi,
 	});
 
 	// 天同二世天变五
@@ -143,9 +148,9 @@ export function setShiYao(symbol: string): ShiYao {
 
 	// 人同游魂人变归
 	if (wai[1] === nei[1]) {
-		if (wai[0] !== nei[0] && wai[2] !== nei[2]) return at(4, 6);
+		if (wai[0] !== nei[0] && wai[2] !== nei[2]) return at(4);
 	} else if (wai[0] === nei[0] && wai[2] === nei[2]) {
-		return at(3, 6);
+		return at(3);
 	}
 
 	// 地同四世地变初
@@ -180,9 +185,9 @@ export function soul(symbol: string): "游魂" | "归魂" | "" {
  * 认宫诀：一二三六外卦宫，四五游魂内变更。若问归魂何所取，归魂内卦是本宫。
  *
  * @param symbol six-bit 卦码
- * @param index the `index` from {@link setShiYao}
+ * @param shi 世爻 from {@link setShiYao}
  */
-export function palace(symbol: string, index: number): number {
+export function palace(symbol: string, shi: number): number {
 	const wai = outer(symbol);
 	const nei = inner(symbol);
 	const hun = soul(symbol);
@@ -193,7 +198,7 @@ export function palace(symbol: string, index: number): number {
 	}
 
 	// 一二三六外卦宫
-	if (index === 1 || index === 2 || index === 3 || index === 6) {
+	if (shi === 1 || shi === 2 || shi === 3 || shi === 6) {
 		return required(indexOfTrigram(wai), `unknown 外卦 "${wai}"`);
 	}
 

@@ -135,6 +135,6 @@ describe("离为火 (101101)", () => {
 	});
 
 	it("is a 本宫六世 卦", () => {
-		expect(setShiYao("101101")).toEqual({ shi: 6, ying: 3, index: 6 });
+		expect(setShiYao("101101")).toEqual({ shi: 6, ying: 3 });
 	});
 });
