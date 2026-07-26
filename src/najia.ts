@@ -39,17 +39,18 @@ export type Params = readonly Yao[] | string;
 
 const GUACI: Record<string, string> = guaciData;
 
-/** 卦名 that {@link guaci} has no text for. See README. */
+/**
+ * 卦名 with no bundled 卦辞. Empty here, and a test keeps it that way.
+ *
+ * The upstream pickle had two gaps because its conversion glued 雷风恒 onto
+ * 泽山咸 and 艮为山 onto 震为雷 — four of the sixty-four served wrong or no text.
+ * Re-splitting the source on title lines recovered all four; see README.
+ */
 export const GUACI_MISSING: readonly string[] = Object.freeze(
 	Object.values(GUA64).filter((name) => GUACI[name] === undefined),
 );
 
-/**
- * 卦辞 for a 卦名, or `undefined` when the bundled text has no entry.
- *
- * Two of the sixty-four are missing upstream; {@link GUACI_MISSING} names them.
- * The Python reference returns `None` here without saying so.
- */
+/** 卦辞 for a 卦名. */
 export function guaci(name: string): string | undefined {
 	return GUACI[name];
 }
