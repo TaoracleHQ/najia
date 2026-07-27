@@ -9,7 +9,7 @@
 ## 用法
 
 ```typescript
-import { cast } from "najia";
+import { cast } from "@taoracle/najia";
 
 // 六爻，初爻在前：1 单(阳静) 2 拆(阴静) 3 重(阳动) 4 交(阴动)
 const reading = cast([2, 2, 1, 2, 4, 2], { date: new Date(2026, 6, 26, 14), guaci: true });
@@ -157,7 +157,7 @@ Python 原库共 758 行，其中需要移植的是计算核心：
 ## 安装
 
 ```bash
-bun add najia      # 或 npm install najia
+bun add @taoracle/najia      # 或 npm install @taoracle/najia
 ```
 
 ## 开发

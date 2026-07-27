@@ -1,5 +1,5 @@
 {
-	"name": "najia",
+	"name": "@taoracle/najia",
 	"version": "0.1.0",
 	"description": "六爻纳甲排盘 —— TypeScript implementation of Liu Yao / Na Jia hexagram divination casting",
 	"license": "MIT",
