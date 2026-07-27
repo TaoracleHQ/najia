@@ -178,10 +178,12 @@ bun run build      # tsc 输出 ESM + .d.ts 到 dist/
 git tag v0.1.0 && git push --tags
 ```
 
-需要仓库配置 `NPM_TOKEN` secret（npm 的 automation token）。CI 发布会带上
-npm provenance，即在公共 registry 上留下"此包由此仓库此提交构建"的可验证记录。
+**不需要任何 token。** 该包在 npm 上配置了 trusted publishing：npm 直接校验
+GitHub Actions 签发的 OIDC 令牌，只接受本仓库该工作流的发布请求，因此没有长期
+凭据需要保管或轮换。发布会自动带上 provenance，在公共 registry 留下「此包由此
+仓库此提交构建」的可验证记录。
 
-本地发布也可以，但拿不到 provenance：
+本地发布仍然可行（需登录并输入 OTP），但拿不到 provenance：
 
 ```bash
 npm login
